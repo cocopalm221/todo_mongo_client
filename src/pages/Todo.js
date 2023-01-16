@@ -62,7 +62,7 @@ const Todo = () => {
   // 전체 목록 호출 메서드
   const getList = (_word = "", _stIndex = 0) => {
     setSkip(0);
-    setSkipToggle(true);
+    setSkipToggle(false);
     // 로딩창 보여주기
     setLoading(true);
 
@@ -82,8 +82,8 @@ const Todo = () => {
           setTodoData(response.data.initTodo);
           // 시작하는 skip 번호를 갱신한다.
           setSkip(response.data.initTodo.length);
-          if (response.data.initTodo.length < 5) {
-            setSkipToggle(false);
+          if (response.data.total > 5) {
+            setSkipToggle(true);
           }
         }
         // 로딩창 숨기기
@@ -223,7 +223,7 @@ const Todo = () => {
         .post("/api/post/deleteall")
         .then(() => {
           // 목록 재호출
-          // getList();
+          getList("", 0);
           setSkip(0);
         })
         .catch((error) => console.log(error));
